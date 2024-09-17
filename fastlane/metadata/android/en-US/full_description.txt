@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # FetchIt
 
 FetchIt is an Android application designed to simplify the process of downloading media files from various popular platforms. With FetchIt, users can easily download videos from YouTube, Twitter, Instagram, and Facebook, and save them to the device.
@@ -61,5 +60,3 @@ To ensure proper functionality, FetchIt requires the following permissions:
 ⚠️ **Disclaimer**: The app developer does not have any relationship or agreement with any of the platforms.
 
 For further information, please visit the [GitHub repository](https://github.com/tharunbirla/FetchIt) or open an issue if you have any questions.
-
->>>>>>> fb52da0a71d15925c4a825214f879ca1742c5efb
