@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Fetchit" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary branding color -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <!-- Primary dark branding color -->
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
+        <!-- Secondary branding color -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+    </style>
+
+    <color name="primaryColorDark">#BB86FC</color>
+</resources>

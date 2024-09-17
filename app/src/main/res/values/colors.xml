@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#484747</color> <!-- Text Color -->
+    <color name="primaryColor">#e2e2e2</color> <!-- Light Gray as Primary Color -->
+    <color name="onPrimaryColor">#484747</color> <!-- Dark Gray for Text on Primary Color -->
+    <color name="secondaryColor">#BBDEFB</color> <!-- Light Blue for Secondary Color -->
+    <color name="onSurfaceColor">#484747</color> <!-- Dark Gray for Text on Surfaces -->
+    <color name="background_color">#fdf9f8</color> <!-- Light Beige for Background -->
+    <color name="colorAccent">#e2e2e2</color> <!-- Light Gray for Accent Color -->
+</resources>
