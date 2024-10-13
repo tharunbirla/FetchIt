@@ -1,0 +1,2 @@
+- Fixed app crash related to permission handling.
+- Updated user interface design.

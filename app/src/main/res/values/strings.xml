@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fetchit</string>
+    <string name="app_name">FetchIt</string>
     <string name="enter_video_url">Enter video URL</string>
     <string name="download">Download</string>
-    <string name="instagram">Instagram</string>
+    <string name="supported_platforms">Supported Platforms</string>
+    <string name="paste_from_clipboard">Paste from clipboard</string>
     <string name="facebook">Facebook</string>
-    <string name="youtube">Youtube</string>
+    <string name="instagram">Instagram</string>
     <string name="twitter">Twitter</string>
-    <string name="paste_url">Paste url</string>
+    <string name="youtube">YouTube</string>
 </resources>
