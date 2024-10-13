@@ -1,16 +1,36 @@
+<<<<<<< HEAD
 # FetchIt
+=======
+Welcome to FetchIt! Easily download media from your favorite platforms and save it to your device. 🎥📸
+>>>>>>> 253adf53012df105d169cdbfc285b2867966033f
 
-FetchIt is an Android application designed to simplify the process of downloading media files from various popular platforms. With FetchIt, users can easily download videos from YouTube, Twitter, Instagram, and Facebook, and save them to the device.
-## Features
+**Supported Platforms:**
 
-- **Multi-Platform Support**: Download videos from YouTube, Twitter, Instagram, and Facebook.
-- **Clipboard Integration**: Easily paste URLs from the clipboard directly into the input field.
-- **File Picker**: Choose the location where you want to save your downloaded media files.
-- **Notification Alerts**: Receive notifications about the status of your downloads.
-- **User-Friendly Interface**: Simple and intuitive design for a seamless user experience.
+* YouTube
+* Facebook
+* Instagram
+* Twitter
+* TikTok
+* Reddit
+* Vimeo
+* Dailymotion
+* Pinterest
+* Snapchat
+* SoundCloud
+* Twitch
+* Tumblr
+* Bilibili
+* Loom
+* Streamable
+* VK
+* Rutube
+* Bluesky
+* Vine
+* OK
 
-## How to Use
+⚠️ **Disclaimer**: The app developer does not have any relationship or agreement with any of the platforms listed above.
 
+<<<<<<< HEAD
 1. **Enter URL**: Type or paste the URL of the media file you wish to download into the provided input field.
 2. **Select Location**: Open the file picker to choose where you want to save the file.
 3. **Start Download**: Tap the download button to begin the download process.
@@ -28,3 +48,6 @@ To ensure proper functionality, FetchIt requires the following permissions:
 ⚠️ **Disclaimer**: The app developer does not have any relationship or agreement with any of the platforms.
 
 For further information, please visit the [GitHub repository](https://github.com/tharunbirla/FetchIt) or open an issue if you have any questions.
+=======
+For more info or to report issues, visit the [GitHub repository](https://github.com/tharunbirla/FetchIt/issues).
+>>>>>>> 253adf53012df105d169cdbfc285b2867966033f

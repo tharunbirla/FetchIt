@@ -1,1 +1,1 @@
-FetchIt is an Android app that lets you download media files from YouTube, Twitter, Instagram, and Facebook. Easily paste URLs from your clipboard, select a save location, and start downloading.
+FetchIt download video from YouTube, Twitter, Instagram, Facebook, and more.

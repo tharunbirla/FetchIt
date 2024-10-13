@@ -19,7 +19,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Cache Gradle dependencies
@@ -29,6 +29,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
 
       - name: Build APK
         run: ./gradlew assembleRelease
