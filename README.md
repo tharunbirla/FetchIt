@@ -2,6 +2,12 @@
 
 FetchIt is an Android application designed to download media files from various sources such as YouTube, Twitter, Instagram, and Facebook. Users can enter a URL, select a file location, and start the download process. The app also provides clipboard functionality to paste URLs directly from the clipboard.
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.tharunbirla.fetchit/)
+
+Or download the latest APK from the [Releases Section](https://github.com/tharunbirla/FetchIt/releases/latest).
+
 ## Features
 
 - Download media files from YouTube, Twitter, Instagram, Facebook, Reddit, Tumblr, Twitch and more.
