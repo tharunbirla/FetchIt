@@ -11,8 +11,8 @@ android {
         applicationId "com.tharunbirla.fetchit"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -26,7 +26,6 @@ android {
         // Disables dependency metadata when building Android App Bundles.
         includeInBundle = false
     }
-
 
     buildTypes {
         release {
