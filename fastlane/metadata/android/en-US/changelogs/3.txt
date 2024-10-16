@@ -1,0 +1,3 @@
+- Refactored functions
+- Fixed Facebook reels download issue
+- Updated UI for better spacing and aesthetics
