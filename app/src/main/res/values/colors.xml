@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#484747</color> <!-- Text Color -->
-    <color name="primaryColor">#e2e2e2</color> <!-- Light Gray as Primary Color -->
-    <color name="onPrimaryColor">#484747</color> <!-- Dark Gray for Text on Primary Color -->
-    <color name="secondaryColor">#BBDEFB</color> <!-- Light Blue for Secondary Color -->
-    <color name="onSurfaceColor">#484747</color> <!-- Dark Gray for Text on Surfaces -->
-    <color name="background_color">#fdf9f8</color> <!-- Light Beige for Background -->
-    <color name="colorAccentText">#3D3D3D</color> <!-- Light Gray for Accent Color -->
-    <color name="colorAccentBackground">#e2e2e2</color> <!-- Light Gray for Accent Color -->
-    <color name="colorAccent">#e2e2e2</color> <!-- Light Gray for Accent Color -->
+    <color name="black">#333333</color> <!-- Darker Text Color -->
+    <color name="primaryColor">#E0E0E0</color> <!-- Soft Light Gray as Primary Color -->
+    <color name="onPrimaryColor">#212121</color> <!-- Darker Gray for Text on Primary Color -->
+    <color name="secondaryColor">#BBDEFB</color> <!-- Soft Light Blue for Secondary Color -->
+    <color name="onSurfaceColor">#212121</color> <!-- Darker Gray for Text on Surfaces -->
+    <color name="colorAccentText">#FFFFFF</color> <!-- White for Accent Text -->
+    <color name="colorAccentBackground">#BBDEFB</color> <!-- Light Blue for Accent Background -->
+    <color name="colorAccent">#6200EE</color> <!-- Deep Purple for Accent Color -->
+    <color name="background_color">#FAFAFA</color> <!-- Very Light Gray for Background -->
+    <color name="toolbar_color">#424242</color> <!-- Darker Shade for Toolbar -->
+    <color name="card_background">#FFFFFF</color> <!-- White for Card Background -->
+    <color name="button_background">#A5C6F6</color> <!-- Soft Blue for Button Background -->
+    <color name="button_text">#212121</color> <!-- Dark Text for Button -->
+    <color name="text_color">#212121</color> <!-- Dark Gray for Regular Text -->
+    <color name="hint_color">#9E9E9E</color> <!-- Gray for Hints -->
+    <color name="chip_background">#E3EAF6</color> <!-- Soft Gray for Chips -->
+    <color name="fab_background">#D1C4E9</color> <!-- Muted Purple for FAB Background -->
+    <color name="icon_color">#FFFFFF</color> <!-- White for Icons -->
 </resources>
