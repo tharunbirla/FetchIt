@@ -1,6 +1,8 @@
 # FetchIt
 
-FetchIt is an Android application designed to download media files from various sources such as YouTube, Twitter, Instagram, and Facebook. Users can enter a URL, select a file location, and start the download process. The app also provides clipboard functionality to paste URLs directly from the clipboard.
+FetchIt is an Android application designed to download media files from various platforms. Users can enter a URL, select a file location, and start the download process.
+
+<img src="https://github.com/tharunbirla/FetchIt/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png?raw=true" alt="FetchIt Screenshot" width="300" height="600">
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
@@ -8,33 +10,79 @@ FetchIt is an Android application designed to download media files from various 
 
 Or download the latest APK from the [Releases Section](https://github.com/tharunbirla/FetchIt/releases/latest).
 
-## Features
 
-- Download media files from YouTube, Twitter, Instagram, Facebook, Reddit, Tumblr, Twitch and more.
+## Table of Contents
+
+- [Supported Platforms](#supported-platforms)
+- [Installation](#installation)
+- [Permissions](#permissions)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+## Supported Platforms
+
+FetchIt supports downloading media from the following platforms:
+
+- YouTube
+- Facebook
+- Instagram
+- Twitter
+- TikTok
+- Reddit
+- Twitch
+- Snapchat
+- Vimeo
+- Dailymotion
+- Pinterest
+- SoundCloud
+- Tumblr
+- Bilibili
+- Loom
+- Streamable
+- VK
+- Rutube
+- Bluesky
+- Vine
+- OK
+
+## Installation
+
+### From F-Droid
+
+1. Visit the [F-Droid page](https://f-droid.org/packages/com.tharunbirla.fetchit/) and install the app directly.
+
+### From GitHub
+
+1. Download the latest APK from the [Releases Section](https://github.com/tharunbirla/FetchIt/releases/latest).
+2. Enable installation from unknown sources in your device settings.
+3. Open the downloaded APK to install the app.
+
+### From Source
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/tharunbirla/FetchIt.git
+   ```
+2. Open the project in Android Studio.
+3. Build and run the app on your device or emulator.
 
 ## Permissions
 
-The app requires several permissions to function correctly:
-- **Storage**: To save downloaded files.
-- **Notifications**: To notify users about the download status.
+The app requires the following permissions:
 
-## Usage
+- **Storage**: Necessary for saving downloaded media files to your device.
+- **Internet**: Necessary to fetch the video from online
+- **Notifications**: Used to inform users about the status of their downloads.
 
-1. **Enter URL**: Input the URL of the media file you want to download.
-2. **Select Location**: Choose where to save the file using the file picker.
-3. **Download**: Tap the download button to start the download.
+## Troubleshooting
 
-To paste a URL from the clipboard, use the clipboard button.
-
-## Disclaimer
-
-⚠️ **Disclaimer**: The app developer does not have any relationship or agreement with any of the platforms.
+- **Download Issues**: Ensure the URL is correct and supported by the app. Check your internet connection and retry.
+- **Permission Denied**: Make sure to grant all necessary permissions in your device settings.
+- **File Not Found**: Ensure that you selected the correct file location and that your device has sufficient storage space.
+- **Report a New Issue or Feature**: For any bugs, issues, or feature requests, please open an [issue.](https://github.com/tharunbirla/FetchIt/issues) Your feedback is welcome!
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
-
-For any questions or issues, please open an issue on [GitHub](https://github.com/tharunbirla/FetchIt/issues).
-
+---
