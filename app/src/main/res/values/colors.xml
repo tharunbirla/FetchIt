@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#333333</color> <!-- Darker Text Color -->
-    <color name="primaryColor">#E0E0E0</color> <!-- Soft Light Gray as Primary Color -->
-    <color name="onPrimaryColor">#212121</color> <!-- Darker Gray for Text on Primary Color -->
-    <color name="secondaryColor">#BBDEFB</color> <!-- Soft Light Blue for Secondary Color -->
-    <color name="onSurfaceColor">#212121</color> <!-- Darker Gray for Text on Surfaces -->
-    <color name="colorAccentText">#FFFFFF</color> <!-- White for Accent Text -->
-    <color name="colorAccentBackground">#BBDEFB</color> <!-- Light Blue for Accent Background -->
-    <color name="colorAccent">#6200EE</color> <!-- Deep Purple for Accent Color -->
-    <color name="background_color">#FAFAFA</color> <!-- Very Light Gray for Background -->
-    <color name="toolbar_color">#424242</color> <!-- Darker Shade for Toolbar -->
-    <color name="card_background">#FFFFFF</color> <!-- White for Card Background -->
-    <color name="button_background">#A5C6F6</color> <!-- Soft Blue for Button Background -->
-    <color name="button_text">#212121</color> <!-- Dark Text for Button -->
-    <color name="text_color">#212121</color> <!-- Dark Gray for Regular Text -->
-    <color name="hint_color">#9E9E9E</color> <!-- Gray for Hints -->
-    <color name="chip_background">#E3EAF6</color> <!-- Soft Gray for Chips -->
-    <color name="fab_background">#D1C4E9</color> <!-- Muted Purple for FAB Background -->
-    <color name="icon_color">#FFFFFF</color> <!-- White for Icons -->
+    <!-- Brand Colors -->
+    <color name="primary">#2196F3</color> <!-- Blue 500 -->
+    <color name="primary_variant">#1976D2</color> <!-- Blue 700 -->
+    <color name="secondary">#BBDEFB</color> <!-- Blue 100 -->
+    <color name="secondary_variant">#90CAF9</color> <!-- Blue 200 -->
+
+    <!-- Button Colors (Soft Blue) -->
+    <color name="button_background">#90CAF9</color> <!-- Blue 200 -->
+    <color name="button_text">#000000</color>
+    <color name="button_disabled">#BDBDBD</color>
+
+    <!-- Surface Colors -->
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
+
+    <!-- Text Colors -->
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#000000</color>
+    <color name="on_background">#000000</color>
+    <color name="on_surface">#000000</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="hint_text">#9E9E9E</color>
+
+    <!-- Component Colors -->
+    <color name="toolbar_color">#2196F3</color>
+    <color name="toolbar_text">#FFFFFF</color>
+    <color name="chip_background">#E3F2FD</color> <!-- Blue 50 -->
+    <color name="chip_text">#212121</color>
+    <color name="fab_background">#2196F3</color>
+    <color name="fab_icon">#FFFFFF</color>
+    <color name="icon_color">#212121</color>
+
+    <!-- Status and Navigation Bar -->
+    <color name="status_bar">#1976D2</color> <!-- Blue 700 -->
+    <color name="nav_bar">#FFFFFF</color>
 </resources>

@@ -5,28 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="?attr/colorSurface"
+        app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
-            android:background="@color/background_color"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextColor="@color/button_background" />
+            app:titleCentered="true"
+            app:titleTextColor="?attr/colorPrimary"
+            style="@style/Widget.Material3.Toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_color"
+        android:background="@color/background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -39,9 +40,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="@color/card_background">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                style="@style/Widget.Material3.CardView.Elevated">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,15 +55,16 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/enter_video_url"
                         app:endIconMode="clear_text"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        app:endIconTint="?attr/colorOnSurfaceVariant"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/urlInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textUri"
-                            android:textColorHint="@color/hint_color"
-                            android:textColor="@color/text_color" />
+                            android:textColorHint="?attr/colorOnSurfaceVariant"
+                            android:textColor="?attr/colorOnSurface" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
@@ -70,12 +72,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:backgroundTint="@color/button_background"
-                        android:textColor="@color/button_text"
                         android:text="@string/download"
-                        app:iconTint="@color/button_text"
                         app:icon="@drawable/ic_download_24"
-                        app:iconGravity="textStart" />
+                        app:iconGravity="textStart"
+                        style="@style/Widget.App.Button" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -83,62 +83,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/supported_platforms"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
                 android:layout_marginBottom="16dp"
-                android:textColor="@color/text_color" />
+                android:textColor="?attr/colorOnBackground" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleLine="false"
-                android:gravity="center"> <!-- Center the chips -->
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                android:gravity="center">
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/youtube"
-                    app:chipIcon="@drawable/ic_youtube"
-                    app:chipBackgroundColor="@color/chip_background"
-                    android:layout_marginEnd="8dp" />
+                    app:chipIcon="@drawable/ic_youtube"/>
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/twitter"
-                    app:chipIcon="@drawable/ic_twitter"
-                    app:chipBackgroundColor="@color/chip_background"
-                    android:layout_marginEnd="8dp" />
+                    app:chipIcon="@drawable/ic_twitter"/>
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/instagram"
-                    app:chipIcon="@drawable/ic_instagram"
-                    app:chipBackgroundColor="@color/chip_background"
-                    android:layout_marginEnd="8dp" />
+                    app:chipIcon="@drawable/ic_instagram"/>
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/facebook"
-                    app:chipIcon="@drawable/ic_facebook"
-                    app:chipBackgroundColor="@color/chip_background"
-                    android:layout_marginEnd="8dp" />
+                    app:chipIcon="@drawable/ic_facebook"/>
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tiktok"
-                    app:chipIcon="@drawable/ic_tiktok"
-                    app:chipBackgroundColor="@color/chip_background"
-                    android:layout_marginEnd="8dp" />
+                    app:chipIcon="@drawable/ic_tiktok"/>
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/reddit"
-                    app:chipIcon="@drawable/ic_reddit"
-                    app:chipBackgroundColor="@color/chip_background" />
+                    app:chipIcon="@drawable/ic_reddit"/>
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>
@@ -150,8 +141,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        android:backgroundTint="@color/button_background"
-        app:iconTint="@color/icon_color"
+        android:contentDescription="@string/paste_from_clipboard"
         app:srcCompat="@drawable/content_paste_24"
-        android:contentDescription="@string/paste_from_clipboard" />
+        style="@style/Widget.App.FloatingActionButton" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

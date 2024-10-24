@@ -1,0 +1,2 @@
+- Implement Share Intent for Downloads
+- Updated UI for dark theme

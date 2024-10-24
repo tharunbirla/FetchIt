@@ -11,6 +11,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,6 +41,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -57,7 +60,84 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
         setupPermissions()
         setupUI()
-        handleIncomingShareIntent(intent)
+        handleIncomingIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // Update the activity's intent
+        setIntent(intent)
+        // Handle the new intent
+        handleIncomingIntent(intent)
+    }
+
+    private fun handleIncomingIntent(intent: Intent?) {
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if (intent.type == "text/plain") {
+                    handleSharedText(intent)
+                }
+            }
+            Intent.ACTION_VIEW -> {
+                handleViewAction(intent)
+            }
+        }
+    }
+
+    private fun handleViewAction(intent: Intent) {
+        intent.data?.toString()?.let { urlString ->
+            if (isValidUrl(urlString)) {
+                findViewById<TextInputEditText>(R.id.urlInput).setText(urlString)
+                findViewById<MaterialButton>(R.id.downloadButton).performClick()
+            } else {
+                showToast("Invalid URL format")
+            }
+        }
+    }
+
+    private fun handleSharedText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedText ->
+            // Try to extract URL from shared text
+            val urls = extractUrls(sharedText)
+            if (urls.isNotEmpty()) {
+                val url = urls.first()
+                if (isValidUrl(url)) {
+                    findViewById<TextInputEditText>(R.id.urlInput).setText(url)
+                    // Automatically trigger the download button
+                    findViewById<MaterialButton>(R.id.downloadButton).performClick()
+                } else {
+                    showToast("Invalid URL format")
+                }
+            } else {
+                showToast("No valid URL found")
+            }
+        }
+    }
+
+    private fun isValidUrl(urlString: String): Boolean {
+        return try {
+            // First check using Android's URLUtil
+            if (!URLUtil.isValidUrl(urlString)) {
+                return false
+            }
+
+            // Additional validation by attempting to create a URL object
+            val url = URL(urlString)
+
+            // Check if the URL has a protocol and host
+            url.protocol.isNotEmpty() && url.host.isNotEmpty()
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    private fun extractUrls(text: String): List<String> {
+        // Simple URL extraction using regex
+        val urlRegex = Patterns.WEB_URL.pattern().toRegex()
+        return urlRegex.findAll(text)
+            .map { it.value }
+            .filter { isValidUrl(it) }
+            .toList()
     }
 
     private fun setupPermissions() {
@@ -76,7 +156,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        val backgroundColor = ContextCompat.getColor(this, R.color.background_color)
+        val backgroundColor = ContextCompat.getColor(this, R.color.background)
         window.statusBarColor = backgroundColor
 
         val urlInput = findViewById<TextInputEditText>(R.id.urlInput)

@@ -1,12 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.Fetchit" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary branding color -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <!-- Primary dark branding color -->
-        <item name="colorPrimaryDark">@color/primaryColorDark</item>
-        <!-- Secondary branding color -->
-        <item name="colorSecondary">@color/secondaryColor</item>
-    </style>
+<style name="Theme.Fetchit" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Color scheme -->
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryVariant">@color/primary_variant</item>
+    <item name="colorSecondary">@color/secondary</item>
+    <item name="colorSecondaryVariant">@color/secondary_variant</item>
 
-    <color name="primaryColorDark">#BB86FC</color>
+    <!-- Surface colors -->
+    <item name="android:colorBackground">@color/background</item>
+    <item name="colorSurface">@color/surface</item>
+
+    <!-- Text colors -->
+    <item name="colorOnPrimary">@color/on_primary</item>
+    <item name="colorOnSecondary">@color/on_secondary</item>
+    <item name="colorOnBackground">@color/on_background</item>
+    <item name="colorOnSurface">@color/on_surface</item>
+
+    <!-- Status bar and navigation -->
+    <item name="android:statusBarColor">@color/status_bar</item>
+    <item name="android:navigationBarColor">@color/nav_bar</item>
+
+    <!-- Text appearances -->
+    <item name="android:textColorPrimary">@color/text_primary</item>
+    <item name="android:textColorSecondary">@color/text_secondary</item>
+    <item name="android:textColorHint">@color/hint_text</item>
+
+    <!-- Component styles -->
+    <item name="materialButtonStyle">@style/Widget.App.Button</item>
+    <item name="chipStyle">@style/Widget.App.Chip</item>
+    <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
+</style>
+
+<!-- Button style -->
+<style name="Widget.App.Button" parent="Widget.Material3.Button">
+    <item name="backgroundTint">@color/button_background</item>
+    <item name="android:textColor">@color/button_text</item>
+</style>
+
+<!-- Chip style -->
+<style name="Widget.App.Chip" parent="Widget.Material3.Chip.Filter">
+    <item name="chipBackgroundColor">@color/chip_background</item>
+    <item name="android:textColor">@color/chip_text</item>
+</style>
+
+<!-- FAB style -->
+<style name="Widget.App.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+    <item name="backgroundTint">@color/fab_background</item>
+    <item name="tint">@color/fab_icon</item>
+</style>
 </resources>

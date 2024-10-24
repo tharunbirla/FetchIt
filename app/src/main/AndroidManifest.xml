@@ -38,24 +38,32 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Fetchit"
+            android:launchMode="singleTask"
             tools:ignore="RedundantLabel">
-
-            <!-- Intent filter to handle share intents -->
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
 
             <!-- Intent filter to handle app launching -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+            <!-- Intent filter to handle shared text/URLs -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <!-- Intent filter to handle direct URL opens -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
+
+        </activity>
 
     </application>
 

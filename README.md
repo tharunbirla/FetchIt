@@ -85,4 +85,10 @@ The app requires the following permissions:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## Acknowledgements
+
+Thanks to:
+
+- **twitsave.com** for enabling Twitter downloads.
+- **imginn.com** for Instagram media downloads.
+- **[cobalt.tools](https://github.com/imputnet/cobalt)** for YouTube and other social media downloads.
