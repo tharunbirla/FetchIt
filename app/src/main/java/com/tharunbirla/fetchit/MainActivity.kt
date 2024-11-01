@@ -10,12 +10,14 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
 import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -33,14 +35,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Headers.Companion.toHeaders
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -48,17 +44,22 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
-    private val requestPermissionCode = 1001
+    private val PROGRESS_NOTIFICATION_ID = 100
+    private val COMPLETION_NOTIFICATION_ID = 101
+    private var isDownloadStarted = false
     private lateinit var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>
     private val channelId = "download_channel"
     private lateinit var saveLocationLauncher: ActivityResultLauncher<Intent>
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         createNotificationChannel()
-        setupPermissions()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            setupPermissions()
+        }
         setupUI()
         handleIncomingIntent(intent)
     }
@@ -140,18 +141,92 @@ class MainActivity : AppCompatActivity() {
             .toList()
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setupPermissions() {
         requestPermissionsLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             val allGranted = permissions.values.all { it }
             if (allGranted) {
-                showToast("Permissions granted")
+                showToast("All permissions granted")
+                // Enable download functionality
+                findViewById<MaterialButton>(R.id.downloadButton).isEnabled = true
             } else {
-                showToast("Some permissions were denied")
+                handleDeniedPermissions(permissions)
             }
         }
 
+        // Check permissions on startup
         if (!arePermissionsGranted()) {
             showPermissionRequestDialog()
+        } else {
+            // Enable download functionality if permissions are already granted
+            findViewById<MaterialButton>(R.id.downloadButton).isEnabled = true
+        }
+    }
+
+    private fun handleDeniedPermissions(permissions: Map<String, Boolean>) {
+        val deniedPermissions = permissions.filter { !it.value }.keys
+
+        if (deniedPermissions.isNotEmpty()) {
+            val permanentlyDenied = deniedPermissions.any { permission ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    !shouldShowRequestPermissionRationale(permission)
+                } else {
+                    TODO("VERSION.SDK_INT < M")
+                }
+            }
+
+            if (permanentlyDenied) {
+                showSettingsDialog()
+            } else {
+                showPermissionExplanationDialog(deniedPermissions.toTypedArray())
+            }
+
+            // Disable download functionality
+            findViewById<MaterialButton>(R.id.downloadButton).isEnabled = false
+        }
+    }
+
+    private fun showPermissionExplanationDialog(permissions: Array<String>) {
+        val permissionNames = permissions.joinToString("\n") { permission ->
+            when (permission) {
+                Manifest.permission.POST_NOTIFICATIONS -> "• Notifications"
+                Manifest.permission.WRITE_EXTERNAL_STORAGE -> "• Storage access"
+                else -> "• $permission"
+            }
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Permissions Required")
+            .setMessage("The following permissions are needed for full functionality:\n\n$permissionNames")
+            .setPositiveButton("Try Again") { _, _ ->
+                requestPermissions()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+                showToast("Some features may be limited")
+            }
+            .show()
+    }
+
+    private fun showSettingsDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Permissions Required")
+            .setMessage("Some permissions are permanently denied. Please enable them in Settings to use all features.")
+            .setPositiveButton("Go to Settings") { _, _ ->
+                openAppSettings()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+                showToast("Some features may be limited")
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun openAppSettings() {
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", packageName, null)
+            startActivity(this)
         }
     }
 
@@ -183,24 +258,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun arePermissionsGranted(): Boolean {
         return when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
                 checkPermissions(
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_IMAGES
+                    Manifest.permission.POST_NOTIFICATIONS
                 )
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
+                // For Android 10 (Q) and above, we don't need WRITE_EXTERNAL_STORAGE
                 checkPermissions(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.POST_NOTIFICATIONS
                 )
             }
             else -> {
                 checkPermissions(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             }
@@ -226,32 +299,19 @@ class MainActivity : AppCompatActivity() {
         val permissions = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
                 arrayOf(
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_IMAGES
+                    Manifest.permission.POST_NOTIFICATIONS
                 )
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
+                TODO("VERSION.SDK_INT < TIRAMISU")
             }
             else -> {
                 arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             }
         }
         requestPermissionsLauncher.launch(permissions)
-    }
-
-    private fun handleIncomingShareIntent(intent: Intent?) {
-        if (Intent.ACTION_SEND == intent?.action && intent.type == "text/plain") {
-            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedText ->
-                findViewById<TextInputEditText>(R.id.urlInput).setText(sharedText)
-                openFilePicker()
-            }
-        }
     }
 
     private fun pasteClipboardToInput() {
@@ -311,25 +371,146 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun downloadFile(videoUrl: String, uri: Uri): Boolean {
+        // Reset download started flag at the beginning of each download
+        isDownloadStarted = false
+
         return try {
             val request = Request.Builder().url(videoUrl).build()
             client.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
-                    response.body?.byteStream()?.use { input ->
+                    val totalBytes = response.body.contentLength() ?: 0L
+                    var downloadedBytes = 0L
+
+                    response.body.byteStream().use { input ->
                         contentResolver.openOutputStream(uri)?.use { output ->
-                            input.copyTo(output)
+                            val buffer = ByteArray(4096)
+                            var bytesRead: Int
+
+                            while (input.read(buffer).also { bytesRead = it } != -1) {
+                                output.write(buffer, 0, bytesRead)
+                                downloadedBytes += bytesRead
+
+                                // Calculate and show progress
+                                val progress = if (totalBytes > 0) {
+                                    (downloadedBytes * 100 / totalBytes).toInt()
+                                } else {
+                                    0
+                                }
+
+                                // Throttle notification updates to prevent excessive system load
+                                if (progress % 5 == 0) {
+                                    showProgressNotification(progress, totalBytes)
+                                }
+                            }
                         }
                     }
+
+                    // Remove progress notification and show completion notification
+                    cancelProgressNotification()
+                    showCompletionNotification("Download Complete", "Video saved successfully", true)
                     true
                 } else {
+                    // Remove progress notification and show error notification
+                    cancelProgressNotification()
+                    showCompletionNotification("Download Failed", "Unable to download the video", false)
                     false
                 }
             }
         } catch (e: Exception) {
             Log.e("Download", "Error: ${e.message}", e)
+            // Remove progress notification and show error notification
+            cancelProgressNotification()
+            showCompletionNotification("Download Error", "Download failed: ${e.message}", false)
             false
         }
     }
+
+    private fun showCompletionNotification(title: String, message: String, isSuccess: Boolean) {
+        val builder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.app_icon)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+            .setAutoCancel(true)
+
+        if (isSuccess) {
+            builder.setSmallIcon(R.drawable.ic_file_download_done_24)
+        } else {
+            builder.setSmallIcon(R.drawable.ic_error_24)
+        }
+
+        try {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationManagerCompat.from(this).notify(COMPLETION_NOTIFICATION_ID, builder.build())
+            }
+        } catch (e: Exception) {
+            Log.e("Notification", "Error showing completion notification", e)
+        }
+    }
+
+    private fun cancelProgressNotification() {
+        try {
+            NotificationManagerCompat.from(this).cancel(PROGRESS_NOTIFICATION_ID)
+        } catch (e: Exception) {
+            Log.e("Notification", "Error canceling progress notification", e)
+        }
+    }
+
+    private fun showProgressNotification(progress: Int, totalBytes: Long) {
+        // Ensure progress is within valid range
+        val safeProgress = progress.coerceIn(0, 100)
+
+        val builder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.app_icon)
+            .setContentTitle("Downloading Video")
+            .setContentText("${formatFileSize(totalBytes)} - ${safeProgress}%")
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOngoing(true)
+            .setProgress(100, safeProgress, false)
+
+        // Only play sound and show heads-up notification on first progress update
+        if (!isDownloadStarted) {
+            builder.setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+            isDownloadStarted = true
+        } else {
+            // Ensure silent updates for progress
+            builder.setSound(null)
+                .setSilent(true)
+        }
+
+        // Safely check and post notification
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    NotificationManagerCompat.from(this).notify(PROGRESS_NOTIFICATION_ID, builder.build())
+                }
+            } else {
+                NotificationManagerCompat.from(this).notify(PROGRESS_NOTIFICATION_ID, builder.build())
+            }
+        } catch (e: Exception) {
+            Log.e("ProgressNotification", "Error showing progress notification", e)
+        }
+    }
+
+    private fun formatFileSize(bytes: Long): String {
+        return when {
+            bytes >= 1_000_000_000 -> "%.1f GB".format(bytes / 1_000_000_000.0)
+            bytes >= 1_000_000 -> "%.1f MB".format(bytes / 1_000_000.0)
+            bytes >= 1_000 -> "%.1f KB".format(bytes / 1_000.0)
+            else -> "$bytes bytes"
+        }
+    }
+
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -345,25 +526,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showNotification(title: String, message: String) {
+    private fun showNotification(title: String, message: String, isComplete: Boolean = false) {
         val builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_download_24)
+            .setSmallIcon(R.drawable.app_icon)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI) // Play sound for completion/error
 
-        NotificationManagerCompat.from(this).apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ActivityCompat.checkSelfPermission(
-                        this@MainActivity,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    notify(System.currentTimeMillis().toInt(), builder.build())
-                }
-            } else {
-                notify(System.currentTimeMillis().toInt(), builder.build())
+        if (isComplete) {
+            builder.setOngoing(false)
+                .setProgress(0, 0, false)
+        }
+
+        try {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // Use a different notification ID for completion/error notifications
+                NotificationManagerCompat.from(this).notify(PROGRESS_NOTIFICATION_ID + 1, builder.build())
             }
+        } catch (e: Exception) {
+            Log.e("Notification", "Error showing notification", e)
         }
     }
 
